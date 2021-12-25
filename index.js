@@ -23,6 +23,9 @@ mongoose.connect(ZALO_URI, {
     .catch(err => {
         console.log(err);
     })
+    mongoose.set('useNewUrlParser', true);
+    mongoose.set('useFindAndModify', false);
+    mongoose.set('useCreateIndex', true);
 const app = express();
 // use middleware to parse body req to json
 app.use(express.json());

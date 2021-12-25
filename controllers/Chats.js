@@ -96,5 +96,21 @@ chatController.getMessages = async (req, res, next) => {
         });
     }
 }
-
+chatController.getlistUser = async (req, res, next) => {
+    try {
+        let userId = req.userId;
+        let listUser = await ChatModel.find({
+            "member.1": userId
+        });
+        let result = listUser.map(data => data.member[0]);
+        result.reverse();
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            userId: result
+        });
+    } catch (e) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            message: e.message
+        });
+    }
+}
 module.exports = chatController;
