@@ -3,6 +3,7 @@ const {
     GROUP_CHAT,
 } = require('../constants/constants');
 const ChatModel = require("../models/Chats");
+const UserModel = require("../models/Users");
 const MessagesModel = require("../models/Messages");
 const httpStatus = require("../utils/httpStatus");
 const chatController = {};
@@ -100,25 +101,40 @@ chatController.getlistUser = async (req, res, next) => {
     try {
         let userId = req.userId;
         let listUser = await ChatModel.find({
-            "member.1": userId
+            "member": userId
         });
-        console.log(listUser);
-        let result = listUser.map(data => {
+        // console.log(listUser[0]);
+        let result = listUser.map( (data) => {
             const test = {};
-            test["userId"] = data.member[0];
+            test["userId"] = "";
             test["id"] = data._id;
             test["time"] = data.updatedAt;
-            // data.member[0]
-            // data._id,
-            // data.updateAt 
-       
-
+            test["username"] = "user";
+            test["avatar"] = "user";
+            test["cover_image"] = "cover_image";
+            test["lastcontent"] = "";
             return test;
         } 
-           
+        
             // = "userId",
             // data.name = "id"
         );
+        for(let i=0; i<listUser.length; i++) {
+            result[i].userId = listUser[i].member[0] == userId ? listUser[i].member[1] : listUser[i].member[0];
+            result[i].id = listUser[i]._id;
+            result[i].time = listUser[i].updatedAt;
+            let user = await UserModel.findById(listUser[i].member[0]);
+            result[i].username = user.username;
+            result[i].avatar = user.avatar;
+            result[i].cover_image = user.cover_image;
+            let lastContent = await MessagesModel.find( {
+                chat: listUser[i]._id
+            })
+            let content = lastContent.map(data => {
+                return data.content;
+            });
+            result[i].lastcontent = content[content.length-1];
+        }
         result.reverse();
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             userIdList: result
