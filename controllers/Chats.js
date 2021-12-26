@@ -102,10 +102,26 @@ chatController.getlistUser = async (req, res, next) => {
         let listUser = await ChatModel.find({
             "member.1": userId
         });
-        let result = listUser.map(data => data.member[0]);
+        console.log(listUser);
+        let result = listUser.map(data => {
+            const test = {};
+            test["userId"] = data.member[0];
+            test["id"] = data._id;
+            test["time"] = data.updatedAt;
+            // data.member[0]
+            // data._id,
+            // data.updateAt 
+       
+
+            return test;
+        } 
+           
+            // = "userId",
+            // data.name = "id"
+        );
         result.reverse();
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-            userId: result
+            userIdList: result
         });
     } catch (e) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
