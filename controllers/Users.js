@@ -361,5 +361,31 @@ usersController.searchUser = async (req, res, next) => {
         });
     }
 }
+usersController.getByPhoneNumber = async (req, res, next) => {
+    try {
+        let phoneNumber = req.body.phoneNumber;
+        var user = await UserModel.find({
+            phonenumber: phoneNumber
+        })
+        user = user[0];
+        var Result = {
+            username: user.username,
+            avatar: user.avatar,
+            cover_image: user.cover_image,
+            gender: user.gender,
+            _id: user._id,
+            phonenumber: user.phonenumber
+        }
+        console.log(Result)
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            username: Result,
+        });
+    }
+    catch (e) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            message: e.message
+        });
+    }
+}
 
 module.exports = usersController;

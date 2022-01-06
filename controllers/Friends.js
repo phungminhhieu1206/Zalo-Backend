@@ -175,13 +175,21 @@ friendsController.listFriends = async (req, res, next) => {
             let requested = await FriendModel.find({sender: req.userId, status: "1" }).distinct('receiver')
             let accepted = await FriendModel.find({receiver: req.userId, status: "1" }).distinct('sender')
 
-            let users = await UserModel.find().where('_id').in(requested.concat(accepted)).populate('avatar').populate('cover_image').exec()
-
+            let user = await UserModel.find().where('_id').in(requested.concat(accepted)).populate('avatar').populate('cover_image').exec()
+            user = user[0];
+            var Result = {
+                username: user.username,
+                avatar: user.avatar,
+                cover_image: user.cover_image,
+                gender: user.gender,
+                _id: user._id,
+                phonenumber: user.phonenumber
+            }
             res.status(200).json({
                 code: 200,
                 message: "Danh sách bạn bè",
                 data: {
-                    friends: users,
+                    friends: Result,
                 }
             });
         }
