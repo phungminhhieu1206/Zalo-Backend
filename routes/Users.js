@@ -34,7 +34,7 @@ usersRoutes.get(
     auth,
     asyncWrapper(usersController.show),
 );
-usersRoutes.get(
+usersRoutes.post(
     "/get-by-phoneNumber",
     auth,
     asyncWrapper(usersController.getByPhoneNumber),

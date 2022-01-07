@@ -376,7 +376,6 @@ usersController.getByPhoneNumber = async (req, res, next) => {
             _id: user._id,
             phonenumber: user.phonenumber
         }
-        console.log(Result)
         return res.status(httpStatus.OK).json({
             username: Result,
         });
