@@ -377,13 +377,13 @@ usersController.getByPhoneNumber = async (req, res, next) => {
             phonenumber: user.phonenumber
         }
         console.log(Result)
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        return res.status(httpStatus.OK).json({
             username: Result,
         });
     }
     catch (e) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-            message: e.message
+            message: "Can't find user",
         });
     }
 }
