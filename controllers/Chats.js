@@ -88,7 +88,7 @@ chatController.getMessages = async (req, res, next) => {
         let messages = await MessagesModel.find({
             chat: req.params.chatId
         }).populate('user');
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        return res.status(httpStatus.OK).json({
             data: messages
         });
     } catch (e) {
@@ -100,18 +100,18 @@ chatController.getMessages = async (req, res, next) => {
 chatController.getlistUser = async (req, res, next) => {
     try {
         let userId = req.userId;
+        console.log(userId);
         let listUser = await ChatModel.find({
             "member": userId
         });
-        // console.log(listUser[0]);
         let result = listUser.map( (data) => {
             const test = {};
             test["userId"] = "";
-            test["id"] = data._id;
-            test["time"] = data.updatedAt;
-            test["username"] = "user";
-            test["avatar"] = "user";
-            test["cover_image"] = "cover_image";
+            test["id"] = "";
+            test["time"] = "";
+            test["username"] = "";
+            test["avatar"] = "";
+            test["cover_image"] = "";
             test["lastcontent"] = "";
             return test;
         } 
@@ -136,7 +136,7 @@ chatController.getlistUser = async (req, res, next) => {
             result[i].lastcontent = content[content.length-1];
         }
         result.reverse();
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        return res.status(httpStatus.OK).json({
             userIdList: result
         });
     } catch (e) {

@@ -364,10 +364,9 @@ usersController.searchUser = async (req, res, next) => {
 usersController.getByPhoneNumber = async (req, res, next) => {
     try {
         let phoneNumber = req.body.phoneNumber;
-        var user = await UserModel.find({
+        var user = await UserModel.findOne({
             phonenumber: phoneNumber
         })
-        user = user[0];
         var Result = {
             username: user.username,
             avatar: user.avatar,
