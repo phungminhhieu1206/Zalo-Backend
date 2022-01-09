@@ -136,9 +136,11 @@ friendsController.setRemoveFriend = async (req, res, next) => {
     try {
         let receiver = req.userId;
         let sender = req.body.user_id;
-
+        console.log(sender);
         let friendRc1 = await FriendModel.findOne({ sender: sender, receiver: receiver });
+        console.log(friendRc1);
         let friendRc2 = await FriendModel.findOne({ sender: receiver, receiver: sender });
+        console.log(friendRc2);
         let final;
         if (friendRc1 == null) {
             final = friendRc2;
@@ -149,10 +151,10 @@ friendsController.setRemoveFriend = async (req, res, next) => {
             res.status(200).json({
                 code: 200,
                 success: false,
-                message: "Khong thể thao tác",
+                message: "Không thể thao tác",
             });
         }
-
+        
         final.status = '3';
         final.save();
 
@@ -162,6 +164,7 @@ friendsController.setRemoveFriend = async (req, res, next) => {
             message: "Xóa bạn thành công",
             data: final
         });
+
     } catch (e) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             message: e.message

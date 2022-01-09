@@ -15,6 +15,12 @@ const postsSchema = new mongoose.Schema({
             ref: "Documents"
         }
     ],
+    /*     imageFirebase: [
+        {
+            url: String,
+            require: false,
+        }
+    ], */
     videos: [
         {
             type: mongoose.Schema.Types.ObjectId,

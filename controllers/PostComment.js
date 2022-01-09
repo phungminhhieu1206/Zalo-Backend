@@ -13,7 +13,8 @@ postCommentController.create = async (req, res, next) => {
             }
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({message: error.message});
-        }const {
+        }
+        const {
             content,
             commentAnswered
         } = req.body;
