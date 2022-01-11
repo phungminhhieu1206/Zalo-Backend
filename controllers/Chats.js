@@ -123,7 +123,7 @@ chatController.getlistUser = async (req, res, next) => {
             result[i].userId = listUser[i].member[0] == userId ? listUser[i].member[1] : listUser[i].member[0];
             result[i].id = listUser[i]._id;
             result[i].time = listUser[i].updatedAt;
-            let user = await UserModel.findById(listUser[i].member[0]);
+            let user = await UserModel.findById(result[i].userId);
             result[i].username = user.username;
             result[i].avatar = user.avatar;
             result[i].cover_image = user.cover_image;
